@@ -55,6 +55,7 @@ class AuthStrings {
 
 class HomeStrings {
   static const countryHint = 'Select Country';
+  static const location ='Choose your location';
   static const searchHint = 'Search for city, Locality, Landmark';
   static const featuredListings = 'Featured Listings';
   static const categories = 'Categories of Properties';

@@ -1,4 +1,5 @@
 import 'package:easymove/core/constants/app_colors.dart';
+import 'package:easymove/features/Chat_screen/presentation/pages/chat_screen.dart';
 import 'package:easymove/features/Services_screen/presentation/pages/services_screen.dart';
 import 'package:easymove/features/homescreen/presentation/pages/home_screen.dart';
 import 'package:easymove/features/profile_screen/presentation/pages/profile_page.dart';
@@ -18,6 +19,8 @@ class AppBottomNavigation extends StatelessWidget {
         destination = const HomeScreen();
       case 1:
         destination = const GetStartedScreen(showBottomNavigation: true);
+      case 2:
+        destination = const ChatScreen();
       case 4:
         destination = const ProfilePage();
       default:

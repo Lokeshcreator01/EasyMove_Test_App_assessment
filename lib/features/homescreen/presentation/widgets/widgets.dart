@@ -352,7 +352,7 @@ class _HomeHeroState extends State<HomeHero> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
       child: SizedBox(
-        height: 205,
+        height: 200,
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [

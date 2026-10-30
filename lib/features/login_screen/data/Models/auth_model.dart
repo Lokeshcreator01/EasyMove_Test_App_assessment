@@ -28,7 +28,6 @@ class UserModel extends UserEntity {
     super.token,
   });
 
-  /// Expects the full root JSON response: { "status": true, "user": {...}, "token": "..." }
   factory UserModel.fromJson(Map<String, dynamic> json) {
     final userMap = json['user'] is Map<String, dynamic>
         ? json['user'] as Map<String, dynamic>

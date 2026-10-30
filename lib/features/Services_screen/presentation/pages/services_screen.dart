@@ -24,7 +24,6 @@ class GetStartedScreen extends StatefulWidget {
 }
 
 class _GetStartedScreenState extends State<GetStartedScreen> {
-  // Icons mapped to the cards[cite: 6]
   final List<IconData> _serviceIcons = [
     Icons.apartment_rounded,
     Icons.directions_car_rounded,
@@ -74,7 +73,6 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // 1. EasyMove Header Logo[cite: 6]
                         Center(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -101,7 +99,6 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
 
                         const SizedBox(height: 16),
 
-                        // 2. Title Text[cite: 6]
                         const Text(
                           'Get started..',
                           style: TextStyle(
@@ -113,7 +110,6 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
 
                         const SizedBox(height: 24),
 
-                        // Row 1: Real Estate & Car Rental[cite: 6]
                         Row(
                           children: [
                             Expanded(
@@ -146,7 +142,6 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
 
                         const SizedBox(height: 16),
 
-                        // Row 2: Short Stays & Packers and Movers[cite: 6]
                         Row(
                           children: [
                             Expanded(
@@ -177,7 +172,6 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
 
                         const SizedBox(height: 16),
 
-                        // Row 3: Travel & Tour & Architecture[cite: 6]
                         Row(
                           children: [
                             Expanded(
@@ -208,7 +202,6 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
 
                         const SizedBox(height: 16),
 
-                        // Row 4: Single Centered Card for Flights[cite: 6]
                         Row(
                           children: [
                             const Spacer(),
@@ -266,7 +259,6 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
   }
 }
 
-/// The Single Reusable Card Widget used for all 7 items[cite: 6]
 class ServiceCard extends StatelessWidget {
   final String title;
   final IconData icon;
@@ -308,7 +300,6 @@ class ServiceCard extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Gradient Icon[cite: 6]
                 ShaderMask(
                   blendMode: BlendMode.srcIn,
                   shaderCallback: (Rect bounds) {

@@ -133,7 +133,9 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: _inputDecoration(),
                       validator: (value) {
                         final email = value?.trim() ?? '';
-                        if (email.isEmpty) return AuthStrings.requiredField;
+                        if (email.isEmpty) {
+                          return AuthStrings.requiredField;
+                        }
                         if (!_isValidEmail(email))
                           return AuthStrings.validEmail;
                         return null;

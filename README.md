@@ -1,6 +1,6 @@
 # easymove
 
-1 app for all services
+one app for all services
 
 ## Getting Started
 

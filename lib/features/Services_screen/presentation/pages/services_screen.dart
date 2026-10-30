@@ -1,4 +1,6 @@
 import 'package:easymove/core/constants/api_Constsnts.dart';
+import 'package:easymove/core/constants/app_strings.dart';
+import 'package:easymove/core/constants/app_styles.dart';
 import 'package:easymove/core/constants/img_constants.dart';
 import 'package:easymove/core/widgets/app_bottom_navigation.dart';
 import 'package:easymove/features/Services_screen/presentation/cubit/Services_cubit.dart';
@@ -139,8 +141,8 @@ class _ServicesHeader extends StatelessWidget {
             child: const Row(
               children: [
                 Text(
-                  'Choose your location',
-                  style: TextStyle(fontSize: 9, color: Color(0xFF333333)),
+                  ServicesStrings.chooseLocation,
+                  style: ServicesStyles.chooseLocation,
                 ),
                 SizedBox(width: 4),
                 Icon(Icons.keyboard_arrow_down, size: 15),

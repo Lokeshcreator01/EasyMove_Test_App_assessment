@@ -118,3 +118,10 @@ class ProfileStyles {
     fontWeight: FontWeight.w700,
   );
 }
+
+class ServicesStyles {
+  static const chooseLocation = TextStyle(
+    fontSize: 9,
+    color: Color(0xFF333333),
+  );
+}

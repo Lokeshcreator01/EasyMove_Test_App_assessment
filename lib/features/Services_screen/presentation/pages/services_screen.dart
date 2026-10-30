@@ -1,4 +1,5 @@
 import 'package:easymove/core/constants/api_Constsnts.dart';
+import 'package:easymove/core/constants/app_colors.dart';
 import 'package:easymove/core/constants/app_strings.dart';
 import 'package:easymove/core/constants/app_styles.dart';
 import 'package:easymove/core/constants/img_constants.dart';
@@ -46,67 +47,63 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
 
         return Scaffold(
           backgroundColor: const Color(0xFFF7F7F7),
-          body: SafeArea(
-            child: Column(
-              children: [
-                _ServicesHeader(),
-                Expanded(
-                  child:
-                      state is ServicesLoadingState ||
-                          state is ServicesInitState
-                      ? const Center(child: CircularProgressIndicator())
-                      : state is ServicesErrorState
-                      ? Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(24),
-                            child: Text(
-                              state.message,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        )
-                      : services.isEmpty
-                      ? const Center(child: Text('No services available'))
-                      : SingleChildScrollView(
-                          padding: const EdgeInsets.fromLTRB(32, 12, 32, 24),
-                          child: Column(
-                            children: [
-                              const Text(
-                                'Select Service',
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF333333),
-                                ),
-                              ),
-                              const SizedBox(height: 18),
-                              GridView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: services.length,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      crossAxisSpacing: 22,
-                                      mainAxisSpacing: 22,
-                                      childAspectRatio: 1.05,
-                                    ),
-                                itemBuilder: (context, index) {
-                                  final service = services[index];
-                                  return _ServiceTile(
-                                    title: service.name,
-                                    icon:
-                                        _serviceIcons[index %
-                                            _serviceIcons.length],
-                                  );
-                                },
-                              ),
-                            ],
+          body: Column(
+            children: [
+              _ServicesHeader(),
+              Expanded(
+                child:
+                    state is ServicesLoadingState || state is ServicesInitState
+                    ? const Center(child: CircularProgressIndicator())
+                    : state is ServicesErrorState
+                    ? Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Text(
+                            state.message,
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                ),
-              ],
-            ),
+                      )
+                    : services.isEmpty
+                    ? const Center(child: Text('No services available'))
+                    : SingleChildScrollView(
+                        padding: const EdgeInsets.fromLTRB(32, 12, 32, 24),
+                        child: Column(
+                          children: [
+                            const Text(
+                              'Select Service',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF333333),
+                              ),
+                            ),
+                            const SizedBox(height: 18),
+                            GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: services.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 22,
+                                    mainAxisSpacing: 22,
+                                    childAspectRatio: 1.05,
+                                  ),
+                              itemBuilder: (context, index) {
+                                final service = services[index];
+                                return _ServiceTile(
+                                  title: service.name,
+                                  icon: _serviceIcons[
+                                      index % _serviceIcons.length],
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+              ),
+            ],
           ),
           bottomNavigationBar: widget.showBottomNavigation
               ? const AppBottomNavigation(selectedIndex: 1)
@@ -121,39 +118,63 @@ class _ServicesHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 64,
-      padding: const EdgeInsets.symmetric(horizontal: 14),
+      height: 97,
       decoration: const BoxDecoration(
-        color: Color(0xFFD2E5FF),
-        borderRadius: BorderRadius.vertical(bottom: Radius.circular(18)),
+        color: HomeColors.bottomBar,
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(28)),
       ),
-      child: Row(
-        children: [
-          Image.asset(ImgConstants.logo, width: 92, fit: BoxFit.contain),
-          const Spacer(),
-          Container(
-            height: 30,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: const Row(
-              children: [
-                Text(
-                  ServicesStrings.chooseLocation,
-                  style: ServicesStyles.chooseLocation,
+      child: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Row(
+            children: [
+              Flexible(
+                flex: 3,
+                child: Image.asset(
+                  ImgConstants.logo,
+                  height: 38,
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, _, _) => const SizedBox(height: 38),
                 ),
-                SizedBox(width: 4),
-                Icon(Icons.keyboard_arrow_down, size: 15),
-              ],
-            ),
+              ),
+              const SizedBox(width: 8),
+              Flexible(
+                flex: 3,
+                child: Container(
+                  height: 32,
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.72),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          ServicesStrings.chooseLocation,
+                          overflow: TextOverflow.ellipsis,
+                          style: ServicesStyles.chooseLocation,
+                        ),
+                      ),
+                      Icon(Icons.keyboard_arrow_down, size: 18),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              const Icon(Icons.notifications_none, size: 22),
+              const SizedBox(width: 5),
+              IconButton(
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(minWidth: 24, minHeight: 24),
+                icon: const Icon(Icons.menu, size: 26),
+                onPressed: () {},
+              ),
+            ],
           ),
-          const SizedBox(width: 18),
-          const Icon(Icons.notifications_none, size: 22),
-          const SizedBox(width: 18),
-          const Icon(Icons.menu, size: 23),
-        ],
+        ),
       ),
     );
   }

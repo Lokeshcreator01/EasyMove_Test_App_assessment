@@ -6,6 +6,7 @@ import 'package:easymove/core/constants/img_constants.dart';
 import 'package:easymove/core/widgets/app_bottom_navigation.dart';
 import 'package:easymove/features/Services_screen/presentation/cubit/Services_cubit.dart';
 import 'package:easymove/features/Services_screen/presentation/cubit/Services_state.dart';
+import 'package:easymove/features/homescreen/presentation/pages/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -96,6 +97,14 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                                   title: service.name,
                                   icon: _serviceIcons[
                                       index % _serviceIcons.length],
+                                  onTap: index == 0
+                                      ? () => Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => const HomeScreen(),
+                                          ),
+                                        )
+                                      : null,
                                 );
                               },
                             ),
@@ -181,10 +190,15 @@ class _ServicesHeader extends StatelessWidget {
 }
 
 class _ServiceTile extends StatelessWidget {
-  const _ServiceTile({required this.title, required this.icon});
+  const _ServiceTile({
+    required this.title,
+    required this.icon,
+    this.onTap,
+  });
 
   final String title;
   final IconData icon;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -201,34 +215,41 @@ class _ServiceTile extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ShaderMask(
-            blendMode: BlendMode.srcIn,
-            shaderCallback: (bounds) => const LinearGradient(
-              colors: [Color(0xFF00A9E8), Color(0xFFE52D38)],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ).createShader(bounds),
-            child: Icon(icon, size: 44),
-          ),
-          const SizedBox(height: 9),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 13,
-                height: 1.05,
-                color: Color(0xFF444444),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(22),
+          onTap: onTap,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ShaderMask(
+                blendMode: BlendMode.srcIn,
+                shaderCallback: (bounds) => const LinearGradient(
+                  colors: [Color(0xFF00A9E8), Color(0xFFE52D38)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ).createShader(bounds),
+                child: Icon(icon, size: 44),
               ),
-            ),
+              const SizedBox(height: 9),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    height: 1.05,
+                    color: Color(0xFF444444),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

@@ -118,7 +118,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     decoration: _inputDecoration(),
                     validator: (value) {
                       final email = value?.trim() ?? '';
-                      if (email.isEmpty || !email.contains('@')) {
+                      if (email.isEmpty) {
+                        return AuthStrings.requiredField;
+                      }
+                      if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
+                          .hasMatch(email)) {
                         return AuthStrings.validEmail;
                       }
                       return null;

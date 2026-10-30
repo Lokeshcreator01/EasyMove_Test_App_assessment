@@ -43,6 +43,11 @@ class AuthStrings {
   static const passwordResetSent = 'Password reset link sent to ';
   static const selectDate = 'Select date';
   static const validEmail = 'Enter a valid email address';
+  static const requiredField = 'This field is required';
+  static const validPassword = 'Password must be at least 8 characters';
+  static const validPhone = 'Enter a valid phone number';
+  static const invalidLoginCredentials =
+      'Please enter valid email address and password';
   static const acceptTerms = 'Please accept the terms';
   static const accountVerified = 'Your Account Has Been\nVerified';
   static const goToLogin = 'Go To Login';

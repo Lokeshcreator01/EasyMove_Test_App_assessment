@@ -66,10 +66,18 @@ class _LoginPageState extends State<LoginPage> {
     return BlocListener<UserCubit, UserState>(
       listener: (context, state) async {
         if (state is UserSuccessState) {
-          final token = state.userEntity.token;
-          if (token != null && token.isNotEmpty) {
-            await AuthStorage().saveToken(token);
+          final token = state.userEntity.token?.trim();
+          if (token == null || token.isEmpty) {
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(AuthStrings.invalidLoginCredentials),
+                ),
+              );
+            }
+            return;
           }
+          await AuthStorage().saveToken(token);
           if (!context.mounted) {
             return;
           }
@@ -123,6 +131,13 @@ class _LoginPageState extends State<LoginPage> {
                       keyboardType: TextInputType.emailAddress,
                       style: AppStyles.input,
                       decoration: _inputDecoration(),
+                      validator: (value) {
+                        final email = value?.trim() ?? '';
+                        if (email.isEmpty) return AuthStrings.requiredField;
+                        if (!_isValidEmail(email))
+                          return AuthStrings.validEmail;
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 20),
                     _fieldLabel(AuthStrings.password),
@@ -143,6 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
+                      validator: _passwordValidator,
                     ),
                     const SizedBox(height: 18),
                     Align(
@@ -238,5 +254,15 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  bool _isValidEmail(String email) {
+    return RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email);
+  }
+
+  String? _passwordValidator(String? value) {
+    if ((value ?? '').isEmpty) return AuthStrings.requiredField;
+    if (value!.length < 8) return AuthStrings.validPassword;
+    return null;
   }
 }

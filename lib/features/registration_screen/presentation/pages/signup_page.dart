@@ -94,6 +94,8 @@ class _SignupPageState extends State<SignupPage> {
           onChanged: onChanged,
           icon: const Icon(Icons.keyboard_arrow_down, size: 20),
           decoration: _inputDecoration(),
+          validator: (value) =>
+              value == null ? AuthStrings.requiredField : null,
         ),
       ],
     );
@@ -197,6 +199,7 @@ class _SignupPageState extends State<SignupPage> {
                     controller: _fullNameController,
                     style: AppStyles.input,
                     decoration: _inputDecoration(),
+                    validator: _requiredValidator,
                   ),
                   const SizedBox(height: 11),
                   Row(
@@ -234,6 +237,16 @@ class _SignupPageState extends State<SignupPage> {
                               keyboardType: TextInputType.phone,
                               style: AppStyles.input,
                               decoration: _inputDecoration(),
+                              validator: (value) {
+                                final phone = value?.trim() ?? '';
+                                if (phone.isEmpty) {
+                                  return AuthStrings.requiredField;
+                                }
+                                if (!RegExp(r'^\d{7,15}$').hasMatch(phone)) {
+                                  return AuthStrings.validPhone;
+                                }
+                                return null;
+                              },
                             ),
                           ],
                         ),
@@ -247,6 +260,13 @@ class _SignupPageState extends State<SignupPage> {
                     keyboardType: TextInputType.emailAddress,
                     style: AppStyles.input,
                     decoration: _inputDecoration(),
+                    validator: (value) {
+                      final email = value?.trim() ?? '';
+                      if (email.isEmpty) return AuthStrings.requiredField;
+                      return _isValidEmail(email)
+                          ? null
+                          : AuthStrings.validEmail;
+                    },
                   ),
                   const SizedBox(height: 11),
                   _label(AuthStrings.password),
@@ -267,6 +287,7 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                       ),
                     ),
+                    validator: _passwordValidator,
                   ),
                   const SizedBox(height: 11),
                   Row(
@@ -316,6 +337,7 @@ class _SignupPageState extends State<SignupPage> {
                     controller: _occupationController,
                     style: AppStyles.input,
                     decoration: _inputDecoration(),
+                    validator: _requiredValidator,
                   ),
                   const SizedBox(height: 11),
                   _selectField(
@@ -450,5 +472,21 @@ class _SignupPageState extends State<SignupPage> {
         ),
       ),
     );
+  }
+
+  String? _requiredValidator(String? value) {
+    return value == null || value.trim().isEmpty
+        ? AuthStrings.requiredField
+        : null;
+  }
+
+  bool _isValidEmail(String email) {
+    return RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email);
+  }
+
+  String? _passwordValidator(String? value) {
+    if ((value ?? '').isEmpty) return AuthStrings.requiredField;
+    if (value!.length < 8) return AuthStrings.validPassword;
+    return null;
   }
 }

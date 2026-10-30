@@ -8,9 +8,7 @@ import 'package:easymove/features/homescreen/presentation/cubit/realestate_cubit
 import 'package:easymove/features/homescreen/presentation/cubit/realestate_state.dart';
 import 'package:easymove/features/homescreen/presentation/widgets/widgets.dart';
 import 'package:easymove/core/widgets/app_bottom_navigation.dart';
-import 'package:easymove/features/Services_screen/presentation/pages/services_screen.dart';
 import 'package:easymove/features/homescreen/presentation/pages/side_bar_screen.dart';
-import 'package:easymove/features/profile_screen/presentation/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -256,23 +254,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 AppBottomNavigation(
                   selectedIndex: _selectedTab,
                   key: ValueKey(_selectedTab),
-                  onItemSelected: (index) {
-                    if (index == 1) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const GetStartedScreen(
-                            showBottomNavigation: true,
-                          ),
-                        ),
-                      );
-                    } else if (index == 4) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const ProfilePage()),
-                      );
-                    }
-                  },
                 ),
               ],
             ),

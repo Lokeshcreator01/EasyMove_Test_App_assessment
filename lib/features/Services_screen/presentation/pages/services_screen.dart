@@ -40,31 +40,30 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
     context.read<ServicesCubit>().getServices(ApiConstsnts.services_Url);
   }
 
-  String _getTitle(List<String> titles, int index, String fallback) {
-    if (index < titles.length && titles[index].trim().isNotEmpty) {
-      return titles[index];
-    }
-    return fallback;
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ServicesCubit, ServicesState>(
       builder: (context, state) {
         final isLoading =
             state is ServicesLoadingState || state is ServicesInitState;
-        final serviceTitles = state is ServicesSuccessState
+        final services = state is ServicesSuccessState
             ? state.servicesEntity.services
                   .where((service) => service.deleted == 0)
-                  .map((service) => service.name)
                   .toList()
-            : <String>[];
+            : const [];
 
         return Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(
             child: isLoading
                 ? const Center(child: CircularProgressIndicator())
+                : state is ServicesErrorState
+                ? Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Text(state.message, textAlign: TextAlign.center),
+                    ),
+                  )
                 : SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 24.0,
@@ -110,112 +109,34 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
 
                         const SizedBox(height: 24),
 
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ServiceCard(
-                                title: _getTitle(
-                                  serviceTitles,
-                                  0,
-                                  'Real Estate',
+                        if (services.isEmpty)
+                          const Center(child: Text('No services available'))
+                        else
+                          GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: services.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 16,
+                                  mainAxisSpacing: 16,
+                                  childAspectRatio: 1.05,
                                 ),
-                                icon: _serviceIcons[0],
-                                onTap: widget.isOnboarding
-                                    ? () => _openLogin(context)
-                                    : () => _openHome(context),
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: ServiceCard(
-                                title: _getTitle(
-                                  serviceTitles,
-                                  1,
-                                  'Car Rental\n& Sales',
-                                ),
-                                icon: _serviceIcons[1],
-                                onTap: () {},
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 16),
-
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ServiceCard(
-                                title: _getTitle(
-                                  serviceTitles,
-                                  2,
-                                  'Short Stays',
-                                ),
-                                icon: _serviceIcons[2],
-                                onTap: () {},
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: ServiceCard(
-                                title: _getTitle(
-                                  serviceTitles,
-                                  3,
-                                  'Packers &\nMovers',
-                                ),
-                                icon: _serviceIcons[3],
-                                onTap: () {},
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 16),
-
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ServiceCard(
-                                title: _getTitle(
-                                  serviceTitles,
-                                  4,
-                                  'Travel & Tour',
-                                ),
-                                icon: _serviceIcons[4],
-                                onTap: () {},
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: ServiceCard(
-                                title: _getTitle(
-                                  serviceTitles,
-                                  5,
-                                  'Architecture,\nConstruction &\nInterior Designs',
-                                ),
-                                icon: _serviceIcons[5],
-                                onTap: () {},
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 16),
-
-                        Row(
-                          children: [
-                            const Spacer(),
-                            Expanded(
-                              flex: 2,
-                              child: ServiceCard(
-                                title: _getTitle(serviceTitles, 6, 'Flights'),
-                                icon: _serviceIcons[6],
-                                onTap: () {},
-                              ),
-                            ),
-                            const Spacer(),
-                          ],
-                        ),
+                            itemBuilder: (context, index) {
+                              final service = services[index];
+                              return ServiceCard(
+                                title: service.name,
+                                icon:
+                                    _serviceIcons[index % _serviceIcons.length],
+                                onTap: index == 0
+                                    ? widget.isOnboarding
+                                          ? () => _openLogin(context)
+                                          : () => _openHome(context)
+                                    : () {},
+                              );
+                            },
+                          ),
 
                         const SizedBox(height: 24),
                       ],
@@ -223,17 +144,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                   ),
           ),
           bottomNavigationBar: widget.showBottomNavigation
-              ? AppBottomNavigation(
-                  selectedIndex: 1,
-                  onItemSelected: (index) {
-                    if (index == 0) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (_) => const HomeScreen()),
-                      );
-                    }
-                  },
-                )
+              ? AppBottomNavigation(selectedIndex: 1)
               : null,
         );
       },

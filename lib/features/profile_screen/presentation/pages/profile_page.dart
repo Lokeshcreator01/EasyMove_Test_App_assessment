@@ -119,14 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
-      bottomNavigationBar: AppBottomNavigation(
-        selectedIndex: 4,
-        onItemSelected: (index) {
-          if (index == 0 && Navigator.canPop(context)) {
-            Navigator.pop(context);
-          }
-        },
-      ),
+      bottomNavigationBar: AppBottomNavigation(selectedIndex: 4),
     );
   }
 

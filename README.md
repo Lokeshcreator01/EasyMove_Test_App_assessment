@@ -1,6 +1,6 @@
 # easymove
 
-i app for all services
+1 app for all services
 
 ## Getting Started
 
